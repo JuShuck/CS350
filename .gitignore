@@ -1,0 +1,39 @@
+# general
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.class
+
+# Eclipse related ignores
+*.pydevproject
+.metadata
+.gradle
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders/
+
+# Eclipse external tool builders
+.externalToolBuilders/
+
+# locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT- specific
+.cproject
+
+# pDT - specific
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# TeXlipse plugin
+.texlipse
