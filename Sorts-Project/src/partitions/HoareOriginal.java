@@ -4,19 +4,23 @@ package partitions;
 
 import java.util.Random;
 
-public class HoareOriginal extends Partition {
+public class HoareOriginal extends Partition
+{
 	// random number generator
 	private static Random random = new Random();
 	
 	// implement the original Hoare partition
-	public void partition(int[] A, int M, int N, int[] refIndeces) {
+	public void partition(int[] A, int M, int N, int[] refIndeces)
+	{
+		swaps = 0;
 		int F = random.nextInt(N - M) + M;
 		int X = A[F];
 		int I = M;
 		int J = N;
 		while (true) {
 			do {
-				if(X < A[I]) {
+				if(X < A[I])
+				{
 					break;
 				}
 				I++;
@@ -43,5 +47,6 @@ public class HoareOriginal extends Partition {
 		}
 		refIndeces[0] = J;
 		refIndeces[1] = I;
+		totalSwaps += swaps;
 	}
 }

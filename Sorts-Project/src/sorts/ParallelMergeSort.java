@@ -1,8 +1,11 @@
 package sorts;
 
-public class ParallelMergeSort {
+public class ParallelMergeSort extends MergeSort
+{
+	
 	// implement a MergeSort here that takes advantage of parallelism
-	public void sort() {
+	public void sort(int[] data)
+	{
 		
 	}
 }
