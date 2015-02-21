@@ -1,5 +1,11 @@
 package runner;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.ini4j.InvalidFileFormatException;
+import org.ini4j.Wini;
+
 /**
  * Contains run configurations.
  *
@@ -31,13 +37,33 @@ public class RunConfigurator
 	 * The data set type to use.
 	 */
 	private String dataSetType;
+	
+	private File source;
 
-	public static RunConfigurator getRunConfigurator(String filename)
+	public static RunConfigurator getRunConfigurator(String filename) throws InvalidFileFormatException, IOException
 	{
-		// TODO You know, actually implement this... I'll look into
-		// ini4j -- http://ini4j.sourceforge.net/overview.html --
-		// it seems rather simple... But who knows!
-		return new RunConfigurator();
+		File file = new File(filename);
+		
+		if (!file.exists())
+		{
+			throw new IllegalArgumentException("The file was not found: " + filename);
+		}
+		
+		return new RunConfigurator(file);
+	}
+	
+	private RunConfigurator(File file) throws InvalidFileFormatException, IOException
+	{
+		Wini config = new Wini(file);
+
+		sortName = config.get("Sort", "Name");
+		sortConfig = config.get("Sort", "Config");
+		
+		totalIterations = config.get("Data", "Iterations", long.class);
+		dataSetSize = config.get("Data", "Size", long.class);
+		dataSetType = config.get("Data", "Type");
+		
+		source = file;
 	}
 	
 	public String getSortName()
@@ -45,19 +71,9 @@ public class RunConfigurator
 		return sortName;
 	}
 
-	public void setSortName(String sortName)
-	{
-		this.sortName = sortName;
-	}
-
 	public String getSortConfig()
 	{
 		return sortConfig;
-	}
-
-	public void setSortConfig(String sortConfig)
-	{
-		this.sortConfig = sortConfig;
 	}
 
 	public long getTotalIterations()
@@ -65,28 +81,18 @@ public class RunConfigurator
 		return totalIterations;
 	}
 
-	public void setTotalIterations(long totalIterations)
-	{
-		this.totalIterations = totalIterations;
-	}
-
 	public long getDataSetSize()
 	{
 		return dataSetSize;
-	}
-
-	public void setDataSetSize(long dataSetSize)
-	{
-		this.dataSetSize = dataSetSize;
 	}
 
 	public String getDataSetType()
 	{
 		return dataSetType;
 	}
-
-	public void setDataSetType(String dataSetType)
+	
+	public String getSourceFile()
 	{
-		this.dataSetType = dataSetType;
+		return source.getAbsolutePath();
 	}
 }

@@ -4,7 +4,7 @@ public class PartitionFactory
 {
 	public static Partition getInstance(String partitionName)
 	{
-		switch (partitionName)
+		switch (partitionName.toLowerCase())
 		{
 			case "lomuto":
 				return new Lomuto();

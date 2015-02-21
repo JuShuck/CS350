@@ -1,6 +1,7 @@
 package runner;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 import data.TestDataGenerator;
@@ -19,7 +20,7 @@ public class TestRunner
 	 * 
 	 * @param config
 	 */
-	public void run(RunConfigurator config)
+	public static void run(RunConfigurator config)
 	{
 		Sort sorter = SortFactory.getInstance(config.getSortName(), config.getSortConfig());
 		
@@ -29,16 +30,38 @@ public class TestRunner
 		
 		TestResult result = null;
 		long totalElapsed = 0;
+		int[] dataToSort = new int[data.length];
+		
+		System.out.println("Run began at:\t\t" + (new Date()));
+		System.out.println();
+		
 		for (long run = 1; run <= config.getTotalIterations(); run++)
 		{
-			result = run(sorter, data);
+			// Always need to copy the data back to it's original state.
+			System.arraycopy(data, 0, dataToSort, 0, dataToSort.length);
+
+			System.out.print("\rExecuting Run: " + run + " of " + config.getTotalIterations() + " ");
+			System.out.print("(" + (int)Math.floor((run / (double)config.getTotalIterations()) * 100) + "%)");
+			
+			result = run(sorter, dataToSort);
 			
 			totalElapsed += result.getElapsedTime();
 		
+			
 			// TODO Store the results (I'll do that).
 		}
 		
+		System.out.println();
+		System.out.println();
+		
 		// TODO something with total elapsed...
+		System.out.println("Run finished at:\t" + (new Date()));
+		System.out.println("Elapsed time: " + nanosecondsToSeconds(totalElapsed) + " seconds (" + totalElapsed + "ns)");
+	}
+	
+	public static long nanosecondsToSeconds(long ns)
+	{
+		return (int)((double)ns * 0.000000001);
 	}
 	
 	/**
@@ -48,7 +71,7 @@ public class TestRunner
 	 * @param data
 	 * @return TestResult.
 	 */
-	private TestResult run(Sort sorter, int[] data)
+	private static TestResult run(Sort sorter, int[] data)
 	{
 		TestResult result = new TestResult();
 		result.setRanAt(Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles")));
@@ -56,7 +79,7 @@ public class TestRunner
 		long start = System.nanoTime();
 		
 		sorter.sort(data);
-		
+
 		long elapsed = System.nanoTime() - start;
 		
 		result.setElapsedTime(elapsed);
@@ -64,5 +87,15 @@ public class TestRunner
 		result.setBasicOpCount(sorter.getBasicOpCount());
 		
 		return result;
+	}
+	
+	private static void printArray(int[] data)
+	{
+		for (int i = 0; i < data.length; i++)
+		{
+			System.out.printf("%d ", data[i]);
+		}
+		
+		System.out.println();
 	}
 }
