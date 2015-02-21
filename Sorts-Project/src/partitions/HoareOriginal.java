@@ -49,4 +49,10 @@ public class HoareOriginal extends Partition
 		refIndeces[1] = I;
 		totalSwaps += swaps;
 	}
+
+	@Override
+	public String getPartitionerName()
+	{
+		return "Hoare";
+	}
 }

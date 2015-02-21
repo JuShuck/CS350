@@ -19,4 +19,10 @@ public class Lomuto extends Partition
 		refIndeces[1] = S + 1;
 		totalSwaps += swaps;
 	}
+
+	@Override
+	public String getPartitionerName()
+	{
+		return "Lomuto";
+	}
 }

@@ -30,6 +30,7 @@ public class QuickSort extends Sort
 	}
 	
 	// concrete sort method
+	@Override
 	public void sort(int[] data)
 	{
 		if (partitioner != null) {
@@ -48,5 +49,11 @@ public class QuickSort extends Sort
 			quickSort(A, M, refIndeces[0]);
 			quickSort(A, refIndeces[1], N);
 		}
+	}
+
+	@Override
+	public String getSortName()
+	{
+		return "Quicksort (" + partitioner.getPartitionerName() + ")";
 	}
 }
