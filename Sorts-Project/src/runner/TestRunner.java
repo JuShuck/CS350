@@ -26,7 +26,7 @@ public class TestRunner
 		
 		// TODO Implement some way to get the proper data set type and of size.
 	    // (Justin?)
-		int[] data = TestDataGenerator.generate(config.getDataSetType(), config.getDataSetSize());
+		int[] data = TestDataGenerator.generate(config.getDataSetType(), config.getDataSetConfig(), config.getDataSetSize());
 		
 		TestResult result = null;
 		long totalElapsed = 0;
