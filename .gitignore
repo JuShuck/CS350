@@ -19,6 +19,8 @@ local.properties
 .settings/
 .loadpath
 .recommenders/
+.classpath
+.project
 
 # Eclipse external tool builders
 .externalToolBuilders/
