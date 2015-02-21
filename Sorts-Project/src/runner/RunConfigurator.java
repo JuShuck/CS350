@@ -1,4 +1,4 @@
-package edu.pdx.cs350.runner;
+package runner;
 
 /**
  * Contains run configurations.

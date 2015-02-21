@@ -8,4 +8,10 @@ public class ParallelMergeSort extends MergeSort
 	{
 		
 	}
+	
+	@Override
+	public String getSortName()
+	{
+		return "Parallel Mergesort";
+	}
 }

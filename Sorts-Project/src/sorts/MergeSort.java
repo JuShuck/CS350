@@ -8,4 +8,10 @@ public class MergeSort extends Sort
 	{
 		
 	}
+
+	@Override
+	public String getSortName()
+	{
+		return "Mergesort";
+	}
 }

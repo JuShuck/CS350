@@ -26,4 +26,6 @@ public abstract class Partition
 	// main trigger for partitioning a data structure
 	public abstract void partition(int[] A, int M, int N, int[] refIndeces);
 	
+	// Returns the name of the partition (eg Hoare).
+	public abstract String getPartitionerName();
 }

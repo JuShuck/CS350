@@ -19,4 +19,6 @@ public abstract class Sort
 	
 	// executes a sort
 	public abstract void sort(int[] data);
+	
+	public abstract String getSortName();
 }

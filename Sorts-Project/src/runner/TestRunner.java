@@ -1,9 +1,11 @@
-package edu.pdx.cs350.runner;
+package runner;
 
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import edu.pdx.cs350.Sort;
+import data.TestDataGenerator;
+import sorts.Sort;
+import sorts.SortFactory;
 
 /**
  * Runs tests... 
@@ -19,8 +21,6 @@ public class TestRunner
 	 */
 	public void run(RunConfigurator config)
 	{
-		// TODO Implement some SortFactory or something to get an instance
-		// of the specified sort (Aaron?).
 		Sort sorter = SortFactory.getInstance(config.getSortName(), config.getSortConfig());
 		
 		// TODO Implement some way to get the proper data set type and of size.
@@ -62,7 +62,6 @@ public class TestRunner
 		result.setElapsedTime(elapsed);
 		result.setSortName(sorter.getSortName());
 		result.setBasicOpCount(sorter.getBasicOpCount());
-		result.setSwapCount(sorter.getSwapCount());
 		
 		return result;
 	}
