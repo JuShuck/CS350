@@ -25,13 +25,14 @@ public class Test {
 		System.out.println();
 		sorter1.sort(arrayA);
 		printArray(arrayA);
-		System.out.println("Total number of swaps made during all sorts using this sorter and partition instance: " + sorter1.getTotalSwaps());
+		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + sorter1.getTotalSwaps());
 		sorter1.sort(arrayACopy1);
 		printArray(arrayACopy1);
-		System.out.println("Total number of swaps made during all sorts using this sorter and partition instance: " + sorter1.getTotalSwaps());
+		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + sorter1.getTotalSwaps());
 		sorter1.sort(arrayACopy2);
 		printArray(arrayACopy2);
-		System.out.println("Total number of swaps made during all sorts using this sorter and partition instance: " + sorter1.getTotalSwaps());
+		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + sorter1.getTotalSwaps());
+		sorter1.printDiagnostics();
 		
 		System.out.println();
 		
@@ -40,13 +41,14 @@ public class Test {
 		System.out.println();
 		sorter2.sort(arrayB);
 		printArray(arrayB);
-		System.out.println("Total number of swaps made during all sorts using this sorter and partition instance: " + sorter2.getTotalSwaps());
+		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + sorter2.getTotalSwaps());
 		sorter2.sort(arrayBCopy1);
 		printArray(arrayBCopy1);
-		System.out.println("Total number of swaps made during all sorts using this sorter and partition instance: " + sorter2.getTotalSwaps());
+		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + sorter2.getTotalSwaps());
 		sorter2.sort(arrayBCopy2);
 		printArray(arrayBCopy2);
-		System.out.println("Total number of swaps made during all sorts using this sorter and partition instance: " + sorter2.getTotalSwaps());
+		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + sorter2.getTotalSwaps());
+		sorter2.printDiagnostics();
 	}
 	
 	public static void printArray(int[] array) {

@@ -14,4 +14,10 @@ public class ParallelMergeSort extends MergeSort
 	{
 		return "Parallel Mergesort";
 	}
+	
+	@Override
+	public void printDiagnostics()
+	{
+		System.out.println("Total number of merges: "/**/);
+	}
 }

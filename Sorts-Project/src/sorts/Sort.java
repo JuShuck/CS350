@@ -20,5 +20,9 @@ public abstract class Sort
 	// executes a sort
 	public abstract void sort(int[] data);
 	
+	// prints relevant diagnostic info (i.e. number of swaps or merges depending on sort)
+	public abstract void printDiagnostics();
+	
+	// gets the name of sort being used
 	public abstract String getSortName();
 }

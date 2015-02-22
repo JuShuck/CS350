@@ -20,6 +20,9 @@ public class SortFactory
 			case "mergesort":
 				return new MergeSort();
 				
+			case "parallel mergesort":
+				return new ParallelMergeSort();
+				
 			default:
 				throw new IllegalArgumentException("Unknown sort type: " + sortName + ".");
 		}

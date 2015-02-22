@@ -14,4 +14,10 @@ public class MergeSort extends Sort
 	{
 		return "Mergesort";
 	}
+	
+	@Override
+	public void printDiagnostics()
+	{
+		System.out.println("Total number of merges: "/**/);
+	}
 }
