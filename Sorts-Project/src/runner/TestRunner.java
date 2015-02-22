@@ -20,7 +20,7 @@ public class TestRunner
 	 * 
 	 * @param config
 	 */
-	public static void run(RunConfigurator config)
+	public static void run(RunConfigurator config, TestDataSaver saver)
 	{
 		Sort sorter = SortFactory.getInstance(config.getSortName(), config.getSortConfig());
 		
@@ -44,11 +44,11 @@ public class TestRunner
 			System.out.print("(" + (int)Math.floor((run / (double)config.getTotalIterations()) * 100) + "%)");
 			
 			result = run(sorter, dataToSort);
+			result.setRunId(run);
 			
 			totalElapsed += result.getElapsedTime();
 		
-			
-			// TODO Store the results (I'll do that).
+			saver.save(result);
 		}
 		
 		System.out.println();
@@ -59,6 +59,12 @@ public class TestRunner
 		System.out.println("Elapsed time: " + nanosecondsToSeconds(totalElapsed) + " seconds (" + totalElapsed + "ns)");
 	}
 	
+	/**
+	 * Converts nanoseconds to seconds.
+	 * 
+	 * @param ns
+	 * @return
+	 */
 	public static long nanosecondsToSeconds(long ns)
 	{
 		return (int)((double)ns * 0.000000001);
@@ -87,15 +93,5 @@ public class TestRunner
 		result.setBasicOpCount(sorter.getBasicOpCount());
 		
 		return result;
-	}
-	
-	private static void printArray(int[] data)
-	{
-		for (int i = 0; i < data.length; i++)
-		{
-			System.out.printf("%d ", data[i]);
-		}
-		
-		System.out.println();
 	}
 }

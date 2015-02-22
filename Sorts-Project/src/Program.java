@@ -1,15 +1,20 @@
 import java.io.File;
 
 import runner.RunConfigurator;
-import runner.TestRunner;
-
-
+import runner.TestDataSaver;
 
 public class Program
 {
-	
+	/**
+	 * The relative path to the storage location for test data.
+	 */
 	public static final String TEST_RESULT_DIRECTORY = "./results";
 	
+	/**
+	 * The main entry point for the test runner.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		try
@@ -25,6 +30,12 @@ public class Program
 		}
 	}
 	
+	/**
+	 * Sets up and actually executes the test runner.
+	 * 
+	 * @param args
+	 * @throws Exception
+	 */
 	private static void execute(String[] args) throws Exception
 	{
 		if (args.length != 1)
@@ -48,12 +59,19 @@ public class Program
 		System.out.println();
 		
 		File resultDirectory = getResultDirectory();
+		TestDataSaver saver = new TestDataSaver(resultDirectory);
 		System.out.println("\tTest Results will be stored in the directory:");
-		System.out.println("\t" + resultDirectory.getCanonicalPath());
+		System.out.println("\t" + saver.getDirectory());
 		
-		TestRunner.run(config);
+		//TestRunner.run(config, saver);
 	}
 	
+	/**
+	 * Returns an instance of a File representing the result directory. If it
+	 * doesn't exist, an attempt will be made to create it.
+	 * 
+	 * @return
+	 */
 	private static File getResultDirectory()
 	{
 		File resultDirectory = new File(TEST_RESULT_DIRECTORY);

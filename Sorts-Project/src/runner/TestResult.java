@@ -2,6 +2,11 @@ package runner;
 
 import java.util.Calendar;
 
+/**
+ * Represents a single test run.
+ *
+ * @author Ian
+ */
 public class TestResult
 {
 	private String sortName;
@@ -9,6 +14,7 @@ public class TestResult
 	private long basicOpCount;
 	private long elapsedTime;
 	private Calendar ranAt;
+	private long runId;
 	
 	public String getSortName()
 	{
@@ -58,5 +64,15 @@ public class TestResult
 	public void setRanAt(Calendar ranAt)
 	{
 		this.ranAt = ranAt;
+	}
+
+	public long getRunId()
+	{
+		return runId;
+	}
+
+	public void setRunId(long runId)
+	{
+		this.runId = runId;
 	}
 }
