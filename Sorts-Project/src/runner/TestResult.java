@@ -20,7 +20,6 @@ public class TestResult
 	
 	public static String getHeaderLine()
 	{
-		// TODO Auto-generated method stub
 		return "Run ID, Ran At, Sort Name, Time (ns), Basic Op Count";
 	}
 	
