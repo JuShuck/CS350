@@ -1,5 +1,6 @@
 package runner;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -19,8 +20,9 @@ public class TestRunner
 	 * Runs a sort according to a run configuration.
 	 * 
 	 * @param config
+	 * @throws IOException 
 	 */
-	public static void run(RunConfigurator config, TestDataSaver saver)
+	public static void run(RunConfigurator config, TestDataSaver saver) throws IOException
 	{
 		Sort sorter = SortFactory.getInstance(config.getSortName(), config.getSortConfig());
 		
@@ -32,18 +34,19 @@ public class TestRunner
 		long totalElapsed = 0;
 		int[] dataToSort = new int[data.length];
 		
-		System.out.println("Run began at:\t\t" + (new Date()));
-		System.out.println();
+		Console.println("Run began at:\t\t" + (new Date()));
+		Console.println();
 		
 		for (long run = 1; run <= config.getTotalIterations(); run++)
 		{
 			// Always need to copy the data back to it's original state.
 			System.arraycopy(data, 0, dataToSort, 0, dataToSort.length);
 
-			System.out.print("\rExecuting Run: " + run + " of " + config.getTotalIterations() + " ");
-			System.out.print("(" + (int)Math.floor((run / (double)config.getTotalIterations()) * 100) + "%)");
+			Console.print("\rExecuting Run: " + run + " of " + config.getTotalIterations() + " ");
+			Console.print("(" + (int)Math.floor((run / (double)config.getTotalIterations()) * 100) + "%)");
 			
 			result = run(sorter, dataToSort);
+			result.setSortName(config.getSortName() + " (" + config.getSortConfig() + ")");
 			result.setRunId(run);
 			
 			totalElapsed += result.getElapsedTime();
@@ -51,12 +54,14 @@ public class TestRunner
 			saver.save(result);
 		}
 		
-		System.out.println();
-		System.out.println();
+		Console.println();
+		Console.println();
 		
 		// TODO something with total elapsed...
-		System.out.println("Run finished at:\t" + (new Date()));
-		System.out.println("Elapsed time: " + nanosecondsToSeconds(totalElapsed) + " seconds (" + totalElapsed + "ns)");
+		Console.println("Run finished at:\t" + (new Date()));
+		Console.println("Elapsed time: " + nanosecondsToSeconds(totalElapsed) + " seconds (" + totalElapsed + "ns)");
+		
+		saver.close();
 	}
 	
 	/**

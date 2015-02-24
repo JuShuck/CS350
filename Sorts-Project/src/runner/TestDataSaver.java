@@ -1,6 +1,8 @@
 package runner;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Date;
@@ -25,6 +27,11 @@ public class TestDataSaver
 	private String startedAt;
 	
 	/**
+	 * Used for writing to the file.
+	 */
+	private BufferedWriter writer;
+	
+	/**
 	 * Initializes a Test Data Saver.
 	 * 
 	 * @param resultDirectory
@@ -45,10 +52,59 @@ public class TestDataSaver
 	 * Saves the results into the directory.
 	 * 
 	 * @param result
+	 * @throws IOException 
 	 */
-	public void save(TestResult result)
+	public void save(TestResult result) throws IOException
 	{
-		// TODO store in CSV file in the directory.
+		boolean writeHeader = this.writer == null;
+		BufferedWriter writer = getWriter(result.getSortName());
+		
+		if (writeHeader)
+		{
+			writer.append(TestResult.getHeaderLine());
+			writer.newLine();
+		}
+		
+		writer.append(result.getCsvLine());
+		writer.newLine();
+		writer.flush();
+	}
+	
+	/**
+	 * Closes the output stream.
+	 * 
+	 * @throws IOException
+	 */
+	public void close() throws IOException
+	{
+		if (this.writer == null)
+		{
+			return;
+		}
+		
+		this.writer.close();
+	}
+	
+	/**
+	 * Returns the file writer.
+	 * 
+	 * @param suffix
+	 * @return
+	 * @throws IOException
+	 */
+	private BufferedWriter getWriter(String suffix) throws IOException
+	{
+		if (this.writer != null)
+		{
+			return this.writer;
+		}
+		
+		File destination = new File(Paths.get(target.getAbsolutePath(), "data-" + suffix + ".csv").toString());
+		FileWriter fileWriter = new FileWriter(destination, true);
+		
+		this.writer = new BufferedWriter(fileWriter);
+		
+		return this.writer;
 	}
 	
 	/**

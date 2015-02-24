@@ -1,7 +1,9 @@
 import java.io.File;
 
+import runner.Console;
 import runner.RunConfigurator;
 import runner.TestDataSaver;
+import runner.TestRunner;
 
 public class Program
 {
@@ -23,10 +25,19 @@ public class Program
 		}
 		catch (Exception e)
 		{
-			System.err.println();
-			System.err.println("An uncaught exception occurred.");
-			System.err.println("Exception: " + e.getClass().getCanonicalName());
-			System.err.println("Message:   " + e.getMessage());
+			Console.errprintln();
+			Console.errprintln("An uncaught exception occurred.");
+			Console.errprintln("Exception:   " + e.getClass().getCanonicalName());
+			Console.errprintln("Message:     " + e.getMessage());
+			Console.errprintln("Stack Trace: ");
+			e.printStackTrace();
+			
+			if (Console.getPrintStream() == null)
+			{
+				return;
+			}
+			
+			e.printStackTrace(Console.getPrintStream());
 		}
 	}
 	
@@ -46,24 +57,26 @@ public class Program
 		
 		RunConfigurator config = RunConfigurator.getRunConfigurator(args[0]);
 		
-		System.out.println("Test Runner Configuration:");
-		System.out.println("\tSource:\t\t" + config.getSourceFile());
-		System.out.println();
-		System.out.println("\tSort Name:\t" + config.getSortName());
-		System.out.println("\tSort Config:\t" + config.getSortConfig());
-		System.out.println();
-		System.out.println("\tData Type:\t" + config.getDataSetType());
-		System.out.println("\tData Config:\t" + config.getDataSetConfig());
-		System.out.println("\tData Size:\t" + config.getDataSetSize());
-		System.out.println("\tIterations:\t" + config.getTotalIterations());
-		System.out.println();
-		
 		File resultDirectory = getResultDirectory();
 		TestDataSaver saver = new TestDataSaver(resultDirectory);
-		System.out.println("\tTest Results will be stored in the directory:");
-		System.out.println("\t" + saver.getDirectory());
 		
-		//TestRunner.run(config, saver);
+		Console.init(new File(saver.getDirectory()));
+		
+		Console.println("Test Runner Configuration:");
+		Console.println("\tSource:\t\t" + config.getSourceFile());
+		Console.println();
+		Console.println("\tSort Name:\t" + config.getSortName());
+		Console.println("\tSort Config:\t" + config.getSortConfig());
+		Console.println();
+		Console.println("\tData Type:\t" + config.getDataSetType());
+		Console.println("\tData Config:\t" + config.getDataSetConfig());
+		Console.println("\tData Size:\t" + config.getDataSetSize());
+		Console.println("\tIterations:\t" + config.getTotalIterations());
+		Console.println();
+		Console.println("\tTest Results will be stored in the directory:");
+		Console.println("\t" + saver.getDirectory());
+		
+		TestRunner.run(config, saver);
 	}
 	
 	/**

@@ -1,6 +1,8 @@
 package runner;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Represents a single test run.
@@ -15,6 +17,25 @@ public class TestResult
 	private long elapsedTime;
 	private Calendar ranAt;
 	private long runId;
+	
+	public static String getHeaderLine()
+	{
+		// TODO Auto-generated method stub
+		return "Run ID, Ran At, Sort Name, Time (ns), Basic Op Count";
+	}
+	
+	public String getCsvLine()
+	{
+		List<String> columns = new ArrayList<String>();
+		
+		columns.add(Long.toString(runId));
+		columns.add(Util.format(ranAt));
+		columns.add(sortName);
+		columns.add(Long.toString(elapsedTime));
+		columns.add(Long.toString(basicOpCount));
+		
+		return String.join(", ", columns);
+	}
 	
 	public String getSortName()
 	{
