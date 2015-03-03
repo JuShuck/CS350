@@ -3,8 +3,8 @@ package sorts;
 public class MergeSort extends Sort
 {
 	
-	// implement a standard MergeSort here
-	public void sort(int[] data)
+	// implements a standard MergeSort
+	public void mergeSort(int[] data)
 	{
 		if (data.length > 1) {
 			int lengthFirst = data.length / 2;
@@ -13,10 +13,19 @@ public class MergeSort extends Sort
 			int[] half2 = new int[lengthSecond];
 			System.arraycopy(data, 0, half1, 0, lengthFirst);
 			System.arraycopy(data, lengthFirst, half2, 0, lengthSecond);
-			sort(half1);
-			sort(half2);
+			// increment basic operations once here for each split
+			incBasicOpCount();
+			mergeSort(half1);
+			mergeSort(half2);
 			merge(half1, half2, data);
-		}
+		}	
+	}
+	
+	public void sort(int[] data)
+	{
+		resetBasicOpCount();
+		mergeSort(data);
+		addTotalOpCount(getLastBasicOpCount());
 	}
 	
 	// merges (and sorts) the contents of two source arrays into one destination array
@@ -34,6 +43,8 @@ public class MergeSort extends Sort
 				j++;
 			}
 			k++;
+			// merge step basic operations accumulated here - i.e. key comparisons
+			incBasicOpCount();
 		}
 		if (i == inData1.length) {
 			System.arraycopy(inData2, j, outData, k, inData2.length - j);
@@ -51,6 +62,6 @@ public class MergeSort extends Sort
 	@Override
 	public void printDiagnostics()
 	{
-		System.out.println("Total number of merges: "/**/);
+		System.out.println("Total extra memory: "/**/);
 	}
 }

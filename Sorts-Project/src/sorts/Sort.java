@@ -1,20 +1,42 @@
 package sorts;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public abstract class Sort
 {
-	// counter for basic operations
-	private long basicOpCount = 0;
 	
-	// increments the count of basic operations
+	// counter for basic operations
+	private AtomicLong basicOpCountLastSort = new AtomicLong(0);
+	private long totalBasicOpCount = 0;
+	
+	// increments the count of per-sort basic operations
 	protected void incBasicOpCount()
 	{
-		basicOpCount++;
+		basicOpCountLastSort.incrementAndGet();
 	}
 	
-	// returns the basic operation count
-	public long getBasicOpCount()
+	// resets the count of per-sort basic operations
+	protected void resetBasicOpCount()
 	{
-		return basicOpCount;
+		basicOpCountLastSort.set(0);
+	}
+	
+	// adds to the count of total basic operations
+	protected void addTotalOpCount(long countToAdd)
+	{
+		totalBasicOpCount = countToAdd;
+	}
+	
+	// returns the basic operation count from the last sort
+	public long getLastBasicOpCount()
+	{
+		return basicOpCountLastSort.get();
+	}
+		
+	// returns the total basic operation count
+	public long getTotalBasicOpCount()
+	{
+		return totalBasicOpCount;
 	}
 	
 	// executes a sort
