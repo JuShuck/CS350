@@ -94,7 +94,7 @@ public class TestRunner
 		
 		result.setElapsedTime(elapsed);
 		result.setSortName(sorter.getSortName());
-		result.setBasicOpCount(sorter.getBasicOpCount());
+		result.setBasicOpCount(sorter.getTotalBasicOpCount());
 		
 		return result;
 	}

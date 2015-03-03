@@ -56,4 +56,10 @@ public class QuickSort extends Sort
 	{
 		return "Quicksort (" + partitioner.getPartitionerName() + ")";
 	}
+	
+	@Override
+	public void printDiagnostics()
+	{
+		System.out.println("Total number of swaps: " + getTotalSwaps());
+	}
 }
