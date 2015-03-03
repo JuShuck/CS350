@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,9 +72,11 @@ public class Analyze
 		long totalRows = 0L;
 		String row;
 		List<Long> elapsedList = new ArrayList<Long>();
+		List<String[]> rowList = new ArrayList<>();
 		while ((row = reader.readLine()) != null)
 		{
 			String[] columns = row.split(",");
+			rowList.add(columns);
 			
 			long ns = Long.parseLong(columns[ELAPSED_TIME_OFFSET].trim());
 			
@@ -109,15 +114,51 @@ public class Analyze
 		double stdDev2 = stdDev * 2;
 		System.out.println("Standard Deviation * 2:\t\t" + formatNumber(stdDev2));
 		
-		for (Long ns : elapsedList)
+		// Write the new file.
+		BufferedWriter writer = getWriter(file, "std-dev-2");
+		writer.write("Run ID, Time (ns)");
+		writer.newLine();
+		
+		for (String[] columns : rowList)
 		{
-			if (stdDev > ns)
+			long ns = Long.parseLong(columns[ELAPSED_TIME_OFFSET].trim());
+
+			if (ns > stdDev2)
 			{
 				continue;
 			}
 			
-			System.out.println("\t" + ns);
+			writer.write(columns[0] + ", " + ns);
+			writer.newLine();
 		}
+		
+		writer.close();
+		
+		System.out.println();
+		System.out.println("Wrote new CSV file with entries greater than two standard deviations removed.");
+		
+		// Single deviation.
+		writer = getWriter(file, "std-dev");
+		writer.write("Run ID, Time (ns)");
+		writer.newLine();
+		
+		for (String[] columns : rowList)
+		{
+			long ns = Long.parseLong(columns[ELAPSED_TIME_OFFSET].trim());
+
+			if (ns > stdDev)
+			{
+				continue;
+			}
+			
+			writer.write(columns[0] + ", " + ns);
+			writer.newLine();
+		}
+		
+		writer.close();
+		
+		System.out.println();
+		System.out.println("Wrote new CSV file with entries greater than one standard deviations removed.");
 	}
 	
 	private static double toSeconds(long ns)
@@ -160,6 +201,24 @@ public class Analyze
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 		
 		return reader;
+	}
+	
+	private static BufferedWriter getWriter(File file, String suffix) throws IOException
+	{
+		String fileName = file.getName().replace(".csv", "-" + suffix + ".csv");
+		String path = Paths.get(file.getParent(), fileName).toString();
+
+		file = new File(path);
+		if (file.exists())
+		{
+			file.delete();
+		}
+		else
+		{
+			file.createNewFile();
+		}
+		
+		return new BufferedWriter(new FileWriter(file));
 	}
 	
 	/**
