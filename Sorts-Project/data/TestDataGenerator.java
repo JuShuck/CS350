@@ -39,10 +39,14 @@ public class TestDataGenerator
 	 * @return
 	 */
 	private static int[] generateRandom(String dataSetType, long dataSetSize) {
-		int[] data = new int[(int) dataSetSize];
 		// Checks to see if there is a reference file to load
-		if (loadReferenceFile(dataSetType, dataSetSize) != null) { return loadReferenceFile(dataSetType, dataSetSize); };
-		PrintWriter writer = getWriter(dataSetType);
+		int[] data = loadReferenceFile(dataSetType, dataSetSize);
+		//If loadReferenceFile returns null, it didn't find a file to load
+		if ( data != null) {
+			return data;
+		}
+		data = new int[(int) dataSetSize];
+		PrintWriter writer = getWriter(dataSetType, dataSetSize);
 		//Because Random produces negative numbers we specify the range
 		// as 0 - Interger.Max_Value
 		Random random = new Random();
@@ -63,10 +67,14 @@ public class TestDataGenerator
 	 * @return
 	 */
 	private static int[] generateFewUnique(String dataSetType, long dataSetSize) {
-		int[] data = new int[(int) dataSetSize];
 		// Checks to see if there is a reference file to load
-		if (loadReferenceFile(dataSetType, dataSetSize) != null) { return loadReferenceFile(dataSetType, dataSetSize); };
-		PrintWriter writer = getWriter(dataSetType);
+		int[] data = loadReferenceFile(dataSetType, dataSetSize);
+		//If loadReferenceFile returns null, it didn't find a file to load
+		if ( data != null) {
+			return data;
+		}
+		data = new int[(int) dataSetSize];
+		PrintWriter writer = getWriter(dataSetType, dataSetSize);
 		//Because Random produces negative numbers we specify the range
 		// as 0 - Interger.Max_Value
 		Random random = new Random();
@@ -92,10 +100,14 @@ public class TestDataGenerator
 	 * @return
 	 */
 	public static int[] generateSorted(String dataSetType, long dataSetSize) {
-		int[] data = new int[(int) dataSetSize];
 		// Checks to see if there is a reference file to load
-		if (loadReferenceFile(dataSetType, dataSetSize) != null) { return loadReferenceFile(dataSetType, dataSetSize); };
-		PrintWriter writer = getWriter(dataSetType);
+		int[] data = loadReferenceFile(dataSetType, dataSetSize);
+		//If loadReferenceFile returns null, it didn't find a file to load
+		if ( data != null) {
+			return data;
+		}
+		data = new int[(int) dataSetSize];
+		PrintWriter writer = getWriter(dataSetType, dataSetSize);
 		for(int i = 0; i < dataSetSize; i++) {
 			data[i] = i;
 			writer.println(i);
@@ -111,10 +123,14 @@ public class TestDataGenerator
 	 * @return
 	 */
 	public static int[] generateReversed(String dataSetType, long dataSetSize) {
-		int[] data = new int[(int) dataSetSize];
 		// Checks to see if there is a reference file to load
-		if (loadReferenceFile(dataSetType, dataSetSize) != null) { return loadReferenceFile(dataSetType, dataSetSize); };
-		PrintWriter writer = getWriter(dataSetType);
+		int[] data = loadReferenceFile(dataSetType, dataSetSize);
+		//If loadReferenceFile returns null, it didn't find a file to load
+		if ( data != null) {
+			return data;
+		}
+		data = new int[(int) dataSetSize];
+		PrintWriter writer = getWriter(dataSetType, dataSetSize);
 		for(int i = 0; i < dataSetSize; i++) {
 			int size = (int)dataSetSize;
 			data[i] =  size - i;
@@ -131,10 +147,14 @@ public class TestDataGenerator
 	 * @return
 	 */
 	public static int[] generateUShaped(String dataSetType, long dataSetSize) {
-		int[] data = new int[(int) dataSetSize];
 		// Checks to see if there is a reference file to load
-		if (loadReferenceFile(dataSetType, dataSetSize) != null) { return loadReferenceFile(dataSetType, dataSetSize); };
-		PrintWriter writer = getWriter(dataSetType);
+		int[] data = loadReferenceFile(dataSetType, dataSetSize);
+		//If loadReferenceFile returns null, it didn't find a file to load
+		if ( data != null) {
+			return data;
+		}
+		data = new int[(int) dataSetSize];
+		PrintWriter writer = getWriter(dataSetType, dataSetSize);
 		int half = (int) dataSetSize / 2;
 		//Generates n/2 - 0
 		for(int i = 0; i < half; i++) {
@@ -156,11 +176,12 @@ public class TestDataGenerator
 	 * @param dataSetType
 	 * @return
 	 */
-	public static PrintWriter getWriter(String dataSetType) {
+	public static PrintWriter getWriter(String dataSetType, long dataSetSize) {
 		PrintWriter writer = null;
 		try {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss");
-			String pathName = "Sorts-Project\\data\\runs\\" + dataSetType + "-" + dateFormat.format(new Date()) + ".txt";
+			String size = String.valueOf(dataSetSize);
+			String pathName = "Sorts-Project\\data\\runs\\" + dataSetType + "(" + size + ")-" + dateFormat.format(new Date()) + ".txt";
 			//Create a new file for this run
 			writer = new PrintWriter(pathName, "UTF-8");
 		} catch (FileNotFoundException e) {
@@ -184,7 +205,7 @@ public class TestDataGenerator
 		File[] dirList = dir.listFiles();
 		// Search all files in the directory
 		for(File f : dirList) {
-			if(f.getAbsolutePath().contains(dataSetType)) {
+			if(f.getAbsolutePath().contains(dataSetType) && f.getAbsolutePath().contains(String.valueOf(dataSetSize))) {
 				//If we found a match attempt to read in the document
 				try {
 					BufferedReader in = new BufferedReader(new FileReader(f.getAbsoluteFile()));
