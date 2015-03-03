@@ -1,12 +1,12 @@
 package runner;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-
 import data.TestDataGenerator;
 import sorts.Sort;
 import sorts.SortFactory;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Runs tests... 
@@ -24,8 +24,8 @@ public class TestRunner
 	{
 		Sort sorter = SortFactory.getInstance(config.getSortName(), config.getSortConfig());
 		
-		// TODO Implement some way to get the proper data set type and of size.
-	    // (Justin?)
+		// Generates a data array based on the config setup
+
 		int[] data = TestDataGenerator.generate(config.getDataSetType(), config.getDataSetSize());
 		
 		TestResult result = null;
