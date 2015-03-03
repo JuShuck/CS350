@@ -14,7 +14,7 @@ public class TestDataGenerator
 	 */
 	public static int maxKeyVals = 4;
 
-	public static int[] generate(String dataSetType, long dataSetSize) {
+	public static int[] generate(String dataSetType, long dataSetSize, String dataSetConfig) {
 		switch(dataSetType.toLowerCase()) {
 			case "sorted":
 				return generateSorted(dataSetType, dataSetSize);

@@ -27,7 +27,7 @@ public class TestRunner
 		Sort sorter = SortFactory.getInstance(config.getSortName(), config.getSortConfig());
 		
 		// Generates a data array based on the config setup
-		int[] data = TestDataGenerator.generate(config.getDataSetType(), config.getDataSetSize());
+		int[] data = TestDataGenerator.generate(config.getDataSetType(), config.getDataSetSize(), config.getDataSetConfig());
 		
 		TestResult result = null;
 		long totalElapsed = 0;
