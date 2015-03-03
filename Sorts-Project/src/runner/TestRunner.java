@@ -1,5 +1,6 @@
 package runner;
 
+import java.io.IOException;
 import data.TestDataGenerator;
 import sorts.Sort;
 import sorts.SortFactory;
@@ -19,46 +20,55 @@ public class TestRunner
 	 * Runs a sort according to a run configuration.
 	 * 
 	 * @param config
+	 * @throws IOException 
 	 */
-	public static void run(RunConfigurator config)
+	public static void run(RunConfigurator config, TestDataSaver saver) throws IOException
 	{
 		Sort sorter = SortFactory.getInstance(config.getSortName(), config.getSortConfig());
 		
 		// Generates a data array based on the config setup
-
-		int[] data = TestDataGenerator.generate(config.getDataSetType(), config.getDataSetSize());
+		int[] data = TestDataGenerator.generate(config.getDataSetType(), config.getDataSetSize(), config.getDataSetConfig());
 		
 		TestResult result = null;
 		long totalElapsed = 0;
 		int[] dataToSort = new int[data.length];
 		
-		System.out.println("Run began at:\t\t" + (new Date()));
-		System.out.println();
+		Console.println("Run began at:\t\t" + (new Date()));
+		Console.println();
 		
 		for (long run = 1; run <= config.getTotalIterations(); run++)
 		{
 			// Always need to copy the data back to it's original state.
 			System.arraycopy(data, 0, dataToSort, 0, dataToSort.length);
 
-			System.out.print("\rExecuting Run: " + run + " of " + config.getTotalIterations() + " ");
-			System.out.print("(" + (int)Math.floor((run / (double)config.getTotalIterations()) * 100) + "%)");
+			Console.print("\rExecuting Run: " + run + " of " + config.getTotalIterations() + " ");
+			Console.print("(" + (int)Math.floor((run / (double)config.getTotalIterations()) * 100) + "%)");
 			
 			result = run(sorter, dataToSort);
+			result.setSortName(config.getSortName() + " (" + config.getSortConfig() + ")");
+			result.setRunId(run);
 			
 			totalElapsed += result.getElapsedTime();
 		
-			
-			// TODO Store the results (I'll do that).
+			saver.save(result);
 		}
 		
-		System.out.println();
-		System.out.println();
+		Console.println();
+		Console.println();
 		
 		// TODO something with total elapsed...
-		System.out.println("Run finished at:\t" + (new Date()));
-		System.out.println("Elapsed time: " + nanosecondsToSeconds(totalElapsed) + " seconds (" + totalElapsed + "ns)");
+		Console.println("Run finished at:\t" + (new Date()));
+		Console.println("Elapsed time: " + nanosecondsToSeconds(totalElapsed) + " seconds (" + totalElapsed + "ns)");
+		
+		saver.close();
 	}
 	
+	/**
+	 * Converts nanoseconds to seconds.
+	 * 
+	 * @param ns
+	 * @return
+	 */
 	public static long nanosecondsToSeconds(long ns)
 	{
 		return (int)((double)ns * 0.000000001);
@@ -87,15 +97,5 @@ public class TestRunner
 		result.setBasicOpCount(sorter.getTotalBasicOpCount());
 		
 		return result;
-	}
-	
-	private static void printArray(int[] data)
-	{
-		for (int i = 0; i < data.length; i++)
-		{
-			System.out.printf("%d ", data[i]);
-		}
-		
-		System.out.println();
 	}
 }

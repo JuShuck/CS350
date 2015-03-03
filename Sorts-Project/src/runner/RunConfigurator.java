@@ -38,6 +38,14 @@ public class RunConfigurator
 	 */
 	private String dataSetType;
 	
+	/**
+	 * If the data set type has any configuration options, they're in here.
+	 */
+	private String dataSetConfig;
+	
+	/**
+	 * The file that contains this configuration.
+	 */
 	private File source;
 
 	public static RunConfigurator getRunConfigurator(String filename) throws InvalidFileFormatException, IOException
@@ -62,6 +70,7 @@ public class RunConfigurator
 		totalIterations = config.get("Data", "Iterations", long.class);
 		dataSetSize = config.get("Data", "Size", long.class);
 		dataSetType = config.get("Data", "Type");
+		dataSetConfig = config.get("Data", "Config");
 		
 		source = file;
 	}
@@ -89,6 +98,11 @@ public class RunConfigurator
 	public String getDataSetType()
 	{
 		return dataSetType;
+	}
+	
+	public String getDataSetConfig()
+	{
+		return dataSetConfig;
 	}
 	
 	public String getSourceFile()

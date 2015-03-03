@@ -1,7 +1,14 @@
 package runner;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+/**
+ * Represents a single test run.
+ *
+ * @author Ian
+ */
 public class TestResult
 {
 	private String sortName;
@@ -9,6 +16,25 @@ public class TestResult
 	private long basicOpCount;
 	private long elapsedTime;
 	private Calendar ranAt;
+	private long runId;
+	
+	public static String getHeaderLine()
+	{
+		return "Run ID, Ran At, Sort Name, Time (ns), Basic Op Count";
+	}
+	
+	public String getCsvLine()
+	{
+		List<String> columns = new ArrayList<String>();
+		
+		columns.add(Long.toString(runId));
+		columns.add(Util.format(ranAt));
+		columns.add(sortName);
+		columns.add(Long.toString(elapsedTime));
+		columns.add(Long.toString(basicOpCount));
+		
+		return String.join(", ", columns);
+	}
 	
 	public String getSortName()
 	{
@@ -58,5 +84,15 @@ public class TestResult
 	public void setRanAt(Calendar ranAt)
 	{
 		this.ranAt = ranAt;
+	}
+
+	public long getRunId()
+	{
+		return runId;
+	}
+
+	public void setRunId(long runId)
+	{
+		this.runId = runId;
 	}
 }
