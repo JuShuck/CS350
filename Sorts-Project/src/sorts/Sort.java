@@ -1,36 +1,48 @@
 package sorts;
 
-import java.util.concurrent.atomic.AtomicLong;
+import algorithm.Algorithm;
 
-public abstract class Sort
+public abstract class Sort implements Algorithm
 {
 	
-	// counter for basic operations
-	private AtomicLong basicOpCountLastSort = new AtomicLong(0);
+	// counters for basic operations
+	private long basicOpCountLastSort = 0;
 	private long totalBasicOpCount = 0;
 	
-	// increments the count of per-sort basic operations
-	protected void incBasicOpCount()
+	// resets the count of per-sort basic operations
+	public void resetBasicOpCount()
 	{
-		basicOpCountLastSort.incrementAndGet();
+		basicOpCountLastSort = 0;
 	}
 	
-	// resets the count of per-sort basic operations
-	protected void resetBasicOpCount()
+	// resets the count of total basic operations
+	public void resetTotalBasicOpCount()
 	{
-		basicOpCountLastSort.set(0);
+		totalBasicOpCount = 0;
 	}
+	
+	// increments the count of per-sort basic operations
+	public void incBasicOpCount()
+	{
+		basicOpCountLastSort++;
+	}
+	
+	// adds to the basic operation count for the current sort
+	public void addToOpCount(long countToAdd)
+	{
+		basicOpCountLastSort += countToAdd;
+	}	
 	
 	// adds to the count of total basic operations
-	protected void addTotalOpCount(long countToAdd)
+	public void addToTotalOpCount(long countToAdd)
 	{
-		totalBasicOpCount = countToAdd;
+		totalBasicOpCount += countToAdd;
 	}
 	
 	// returns the basic operation count from the last sort
-	public long getLastBasicOpCount()
+	public long getBasicOpCountLastSort()
 	{
-		return basicOpCountLastSort.get();
+		return basicOpCountLastSort;
 	}
 		
 	// returns the total basic operation count
@@ -41,9 +53,6 @@ public abstract class Sort
 	
 	// executes a sort
 	public abstract void sort(int[] data);
-	
-	// prints relevant diagnostic info (i.e. number of swaps or merges depending on sort)
-	public abstract void printDiagnostics();
 	
 	// gets the name of sort being used
 	public abstract String getSortName();

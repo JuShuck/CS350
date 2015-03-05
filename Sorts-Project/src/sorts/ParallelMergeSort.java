@@ -22,16 +22,16 @@ public class ParallelMergeSort extends MergeSort implements Runnable
 		this.remainingCores = remainingCores;
 	}
 	
+	// get the number of available threads
+	public static int getAvailableThreads()
+	{
+		return cores;
+	}
+	
 	// run method from Runnable interface
 	public void run()
 	{
 		parallelMergeSort(dataThisThread);
-	}
-	
-	// get the number of available threads
-	public int getAvailableThreads()
-	{
-		return cores;
 	}
 	
 	// implements a MergeSort that takes advantage of parallelism
@@ -49,14 +49,27 @@ public class ParallelMergeSort extends MergeSort implements Runnable
 				System.arraycopy(data, lengthFirst, half2, 0, lengthSecond);
 				// increment basic operations once here for each split
 				incBasicOpCount();
-				Thread leftThread = new Thread(new ParallelMergeSort(half1, remainingCores / 2));
-				Thread rightThread = new Thread(new ParallelMergeSort(half2, remainingCores / 2));
+				// and record the amount of extra memory that was just allocated
+				addToExtraMemory(lengthFirst);
+				addToExtraMemory(lengthSecond);
+				// now kick off the concurrent sorts
+				ParallelMergeSort leftSort = new ParallelMergeSort(half1, remainingCores / 2);
+				ParallelMergeSort rightSort = new ParallelMergeSort(half2, remainingCores / 2);
+				Thread leftThread = new Thread(leftSort);
+				Thread rightThread = new Thread(rightSort);
 				leftThread.start();
 				rightThread.start();
+				// wait for concurrent threads to finish execution
 				try {
 					leftThread.join();
 					rightThread.join();
 				} catch (InterruptedException e) {}
+				// accumulate the basic operations and extra memory totals from each concurrent thread
+				addToOpCount(leftSort.getBasicOpCountLastSort());
+				addToOpCount(rightSort.getBasicOpCountLastSort());
+				addToExtraMemory(leftSort.getExtraMemoryLastSort());
+				addToExtraMemory(rightSort.getExtraMemoryLastSort());
+				// merge and sort the sub arrays
 				merge(half1, half2, data);
 			}
 		}
@@ -66,19 +79,15 @@ public class ParallelMergeSort extends MergeSort implements Runnable
 	public void sort(int[] data)
 	{
 		resetBasicOpCount();
+		resetExtraMemory();
 		parallelMergeSort(data);
-		addTotalOpCount(getLastBasicOpCount());
+		addToTotalOpCount(getBasicOpCountLastSort());
+		addToTotalExtraMemory(getExtraMemoryLastSort());
 	}
 	
 	@Override
 	public String getSortName()
 	{
 		return "Parallel Mergesort";
-	}
-	
-	@Override
-	public void printDiagnostics()
-	{
-		System.out.println("Total extra memory: "/**/);
 	}
 }

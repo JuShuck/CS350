@@ -3,6 +3,35 @@ package sorts;
 public class MergeSort extends Sort
 {
 	
+	// counters for extra memory needed (specific to merge sorts)
+	private long extraMemoryLastSort = 0;
+	private long totalExtraMemory = 0;
+	
+	protected void resetExtraMemory()
+	{
+		extraMemoryLastSort = 0;
+	}
+	
+	protected void addToExtraMemory(long size)
+	{
+		extraMemoryLastSort += size;
+	}
+	
+	protected void addToTotalExtraMemory(long size)
+	{
+		totalExtraMemory += size;
+	}
+	
+	public long getExtraMemoryLastSort()
+	{
+		return extraMemoryLastSort;
+	}
+	
+	public long getTotalExtraMemory()
+	{
+		return totalExtraMemory;
+	}
+	
 	// implements a standard MergeSort
 	public void mergeSort(int[] data)
 	{
@@ -15,6 +44,9 @@ public class MergeSort extends Sort
 			System.arraycopy(data, lengthFirst, half2, 0, lengthSecond);
 			// increment basic operations once here for each split
 			incBasicOpCount();
+			// and record the amount of extra memory that was just allocated
+			addToExtraMemory(lengthFirst);
+			addToExtraMemory(lengthSecond);
 			mergeSort(half1);
 			mergeSort(half2);
 			merge(half1, half2, data);
@@ -24,8 +56,10 @@ public class MergeSort extends Sort
 	public void sort(int[] data)
 	{
 		resetBasicOpCount();
+		resetExtraMemory();
 		mergeSort(data);
-		addTotalOpCount(getLastBasicOpCount());
+		addToTotalOpCount(getBasicOpCountLastSort());
+		addToTotalExtraMemory(getExtraMemoryLastSort());
 	}
 	
 	// merges (and sorts) the contents of two source arrays into one destination array
@@ -57,11 +91,5 @@ public class MergeSort extends Sort
 	public String getSortName()
 	{
 		return "Mergesort";
-	}
-	
-	@Override
-	public void printDiagnostics()
-	{
-		System.out.println("Total extra memory: "/**/);
 	}
 }
