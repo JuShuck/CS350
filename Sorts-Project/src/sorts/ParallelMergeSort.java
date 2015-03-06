@@ -9,26 +9,37 @@ public class ParallelMergeSort extends MergeSort implements Runnable
 	private int[] dataThisThread;
 	private int remainingCores;
 	
-	// default constructor
+	/**
+	 * default constructor
+	 */
 	public ParallelMergeSort()
 	{
 		remainingCores = cores;
 	}
 	
-	// constructor used for passing data to new threads
+	/**
+	 * constructor used for passing data to new threads
+	 * @param dataThisThread
+	 * @param remainingCores
+	 */
 	public ParallelMergeSort(int[] dataThisThread, int remainingCores)
 	{
 		this.dataThisThread = dataThisThread;
 		this.remainingCores = remainingCores;
 	}
 	
-	// get the number of available threads
+	/**
+	 * get the number of available threads
+	 * @return
+	 */
 	public static int getAvailableThreads()
 	{
 		return cores;
 	}
 	
-	// run method from Runnable interface
+	/**
+	 * run method from Runnable interface
+	 */
 	public void run()
 	{
 		parallelMergeSort(dataThisThread);
@@ -75,6 +86,9 @@ public class ParallelMergeSort extends MergeSort implements Runnable
 		}
 	}
 	
+	/**
+	 * concrete sort method
+	 */
 	@Override
 	public void sort(int[] data)
 	{
