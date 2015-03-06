@@ -20,7 +20,7 @@ public class TestResult
 	
 	public static String getHeaderLine()
 	{
-		return "Run ID, Ran At, Sort Name, Time (ns), Basic Op Count";
+		return "Run ID, Ran At, Sort Name, Time (ns), Basic Op Count, Cumulative Basic Op Count, Swap Count, Cumulative Swap Count, Extra Memory Allocated, Cumulative Extra Memory Allocated";
 	}
 	
 	public String getCsvLine()
