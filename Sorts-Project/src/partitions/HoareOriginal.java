@@ -6,12 +6,15 @@ import java.util.Random;
 
 public class HoareOriginal extends Partition
 {
+	
 	// random number generator
 	private static Random random = new Random();
 	
+	@Override
 	// implement the original Hoare partition
 	public void partition(int[] A, int M, int N, int[] refIndeces)
 	{
+		resetBasicOpCount();
 		swaps = 0;
 		int F = random.nextInt(N - M) + M;
 		int X = A[F];
@@ -19,6 +22,8 @@ public class HoareOriginal extends Partition
 		int J = N;
 		while (true) {
 			do {
+				// increment basic operations
+				incBasicOpCount();
 				if(X < A[I])
 				{
 					break;
@@ -26,6 +31,8 @@ public class HoareOriginal extends Partition
 				I++;
 			} while (I < N);
 			do {
+				// increment basic operations
+				incBasicOpCount();
 				if(A[J] < X) {
 					break;
 				}
@@ -48,6 +55,7 @@ public class HoareOriginal extends Partition
 		refIndeces[0] = J;
 		refIndeces[1] = I;
 		totalSwaps += swaps;
+		addToTotalOpCount(getBasicOpCountLastSort());
 	}
 
 	@Override
