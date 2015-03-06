@@ -23,6 +23,12 @@ public class Analyze
 	/**
 	 * The main entry point for the Analyzer portion of the program.
 	 * 
+	 * TODO: Slowest run, fastest run, average run
+	 * 
+	 * consider auxilary data
+	 * 
+	 * Remove the first 3, then take std dev
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args)
