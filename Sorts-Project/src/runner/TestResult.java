@@ -15,6 +15,7 @@ public class TestResult
 	private long swapCount;
 	private long basicOpCount;
 	private long elapsedTime;
+	private long totalExtraMemory;
 	private Calendar ranAt;
 	private long runId;
 	
@@ -32,6 +33,12 @@ public class TestResult
 		columns.add(sortName);
 		columns.add(Long.toString(elapsedTime));
 		columns.add(Long.toString(basicOpCount));
+		// TODO Whats the difference betwen basic op and cumulative?
+		columns.add("");
+		columns.add(Long.toString(swapCount));
+		columns.add(""); // TODO cumulative swap
+		columns.add(Long.toString(totalExtraMemory));
+		columns.add(""); // TODO cumulative extra memory.
 		
 		return String.join(", ", columns);
 	}
@@ -94,5 +101,15 @@ public class TestResult
 	public void setRunId(long runId)
 	{
 		this.runId = runId;
+	}
+
+	public long getTotalExtraMemory()
+	{
+		return totalExtraMemory;
+	}
+
+	public void setTotalExtraMemory(long totalExtraMemory)
+	{
+		this.totalExtraMemory = totalExtraMemory;
 	}
 }

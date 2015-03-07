@@ -95,6 +95,10 @@ public class TestRunner
 		result.setElapsedTime(elapsed);
 		result.setSortName(sorter.getSortName());
 		result.setBasicOpCount(sorter.getTotalBasicOpCount());
+		result.setSwapCount(sorter.getTotalSwaps());
+		result.setTotalExtraMemory(sorter.getTotalExtraMemory());
+		
+		sorter.resetAll();
 		
 		return result;
 	}
