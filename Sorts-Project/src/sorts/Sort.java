@@ -14,6 +14,8 @@ public abstract class Sort
 	{
 		basicOpCountLastSort.incrementAndGet();
 	}
+
+	protected boolean incBasicOpCountInLoop() { basicOpCountLastSort.incrementAndGet(); return true; }
 	
 	// resets the count of per-sort basic operations
 	protected void resetBasicOpCount()

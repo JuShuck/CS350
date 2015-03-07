@@ -7,9 +7,7 @@ public class InsertionSort extends Sort {
         for(int i = 0; i < data.length; i++) {
             key = data[i];
             prevIndex = i - 1;
-            while( prevIndex > -1 && data[prevIndex] > key) {
-                //Incremenet Basic Op count(Comparrisons)
-                incBasicOpCount();
+            while(incBasicOpCountInLoop() && prevIndex > -1 && data[prevIndex] > key) {
                 data[prevIndex+1] = data[prevIndex];
                 prevIndex--;
             }
