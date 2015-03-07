@@ -205,7 +205,7 @@ public class TestDataGenerator
 		File[] dirList = dir.listFiles();
 		// Search all files in the directory
 		for(File f : dirList) {
-			if(f.getAbsolutePath().contains(dataSetType) && f.getAbsolutePath().contains(String.valueOf(dataSetSize))) {
+			if(f.getAbsolutePath().contains(dataSetType) && f.getAbsolutePath().contains("(" + String.valueOf(dataSetSize) + ")")) {
 				//If we found a match attempt to read in the document
 				try {
 					BufferedReader in = new BufferedReader(new FileReader(f.getAbsoluteFile()));
