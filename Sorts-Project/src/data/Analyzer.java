@@ -67,12 +67,12 @@ public class Analyzer
 	private static List<List<String>> removeRowsGreaterThan(List<List<String>> rows, double min)
 	{
 		List<List<String>> withoutStdDev = new ArrayList<>();
-		
+
 		for (List<String> columns : rows)
 		{
 			long elapsed = toLong(columns.get(ELAPSED_TIME_OFFSET));
 			
-			if (elapsed > min)
+			if ((new Long(elapsed)).doubleValue() > min)
 			{
 				continue;
 			}
@@ -115,18 +115,19 @@ public class Analyzer
 	{
 		// We need the average.
 		long elapsedNs = getTotalElapsedNs(rows);
-		double average = elapsedNs / (double) rows.size();
+		double average = (new Long(elapsedNs)).doubleValue() / (new Integer(rows.size())).doubleValue();
 		
-		// The variance.
 		double variance = 0;
 		for (List<String> columns : rows)
 		{
-			long elapsed = toLong(columns.get(ELAPSED_TIME_OFFSET));
+			long ns = toLong(columns.get(ELAPSED_TIME_OFFSET));
 			
-			variance += Math.pow(((double) elapsed) - average, 2);
+			variance += Math.pow((new Long(ns)).doubleValue() - average, 2);
 		}
 		
-		return Math.sqrt(variance / (double) rows.size());
+		variance = variance / (new Integer(rows.size())).doubleValue();
+		
+		return Math.sqrt(variance);
 	}
 	
 	private static long getTotalElapsedNs(List<List<String>> rows)
