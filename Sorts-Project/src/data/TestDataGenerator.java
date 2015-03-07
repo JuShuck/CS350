@@ -234,7 +234,7 @@ public class TestDataGenerator
 						i++;
 					}
 					
-					if (data.length != dataSetSize)
+					if (i != dataSetSize)
 					{
 						throw new Exception ("The obtained array is not of the desired length.");
 					}
