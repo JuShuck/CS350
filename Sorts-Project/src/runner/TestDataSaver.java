@@ -31,6 +31,8 @@ public class TestDataSaver
 	 */
 	private BufferedWriter writer;
 	
+	private String fileName;
+	
 	/**
 	 * Initializes a Test Data Saver.
 	 * 
@@ -102,9 +104,16 @@ public class TestDataSaver
 		File destination = new File(Paths.get(target.getAbsolutePath(), "data-" + suffix + ".csv").toString());
 		FileWriter fileWriter = new FileWriter(destination, true);
 		
+		
+		this.fileName = destination.getCanonicalPath();
 		this.writer = new BufferedWriter(fileWriter);
 		
 		return this.writer;
+	}
+	
+	public String getFileName()
+	{
+		return fileName;
 	}
 	
 	/**

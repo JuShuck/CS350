@@ -1,13 +1,12 @@
 package runner;
 
-import java.io.IOException;
-import data.TestDataGenerator;
-import sorts.Sort;
-import sorts.SortFactory;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
+import sorts.Sort;
+import sorts.SortFactory;
+import data.TestDataGenerator;
 
 /**
  * Runs tests... 
@@ -16,13 +15,16 @@ import java.util.TimeZone;
  */
 public class TestRunner
 {
+	// The percentage of sorts to validate (0.1 = 10%, so in 1,000 iterations, every 100 is checked).
+	private static final double PERCENTAGE_TO_VALIDATE = 0.1;
+
 	/**
 	 * Runs a sort according to a run configuration.
 	 * 
 	 * @param config
-	 * @throws IOException 
+	 * @throws Exception 
 	 */
-	public static void run(RunConfigurator config, TestDataSaver saver) throws IOException
+	public static void run(RunConfigurator config, TestDataSaver saver) throws Exception
 	{
 		Sort sorter = SortFactory.getInstance(config.getSortName(), config.getSortConfig());
 		
@@ -50,6 +52,12 @@ public class TestRunner
 			
 			totalElapsed += result.getElapsedTime();
 		
+			// We should periodically validate it the sorted data... Just in case.
+			if (run % (config.getTotalIterations() * PERCENTAGE_TO_VALIDATE) == 0)
+			{
+				validateSort(dataToSort);
+			}
+			
 			saver.save(result);
 		}
 		
@@ -95,7 +103,28 @@ public class TestRunner
 		result.setElapsedTime(elapsed);
 		result.setSortName(sorter.getSortName());
 		result.setBasicOpCount(sorter.getTotalBasicOpCount());
+		result.setSwapCount(sorter.getTotalSwaps());
+		result.setTotalExtraMemory(sorter.getTotalExtraMemory());
+		
+		sorter.resetAll();
 		
 		return result;
+	}
+	
+	/**
+	 * Ensures the data is actually sorted!
+	 * 
+	 * @param data
+	 * @throws Exception 
+	 */
+	private static void validateSort(int[] data) throws Exception
+	{
+		for (int i = 1; i < data.length; i++)
+		{
+			if (data[i - 1] > data[i])
+			{
+				throw new Exception("The sort failed! data[" + (i - 1) + "] > data[" + i + "]");
+			}
+		}
 	}
 }

@@ -18,6 +18,19 @@ public abstract class Sort implements Algorithm
 	protected long totalExtraMemory = 0;
 	
 	/**
+	 * Resets everything at once.
+	 */
+	public void resetAll()
+	{
+		basicOpCountLastSort = 0;
+		totalBasicOpCount = 0;
+		swapsLastSort = 0;
+		totalSwaps = 0;
+		extraMemoryLastSort = 0;
+		totalExtraMemory = 0;
+	}
+	
+	/**
 	 * resets the count of per-sort basic operations
 	 */
 	public void resetBasicOpCount()

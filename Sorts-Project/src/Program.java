@@ -1,5 +1,6 @@
 import java.io.File;
 
+import data.Analyzer;
 import runner.Console;
 import runner.RunConfigurator;
 import runner.TestDataSaver;
@@ -77,6 +78,8 @@ public class Program
 		Console.println("\t" + saver.getDirectory());
 		
 		TestRunner.run(config, saver);
+		
+		Analyzer.analyze(saver.getFileName(), new File(saver.getDirectory()));
 	}
 	
 	/**
