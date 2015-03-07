@@ -42,16 +42,16 @@ public class Analyzer
 		outputBasicStatsFor(rows);
 		
 		double stdDev = getStdDev(rows);
-		Console.println("\tStandard Deviation: " + stdDev);
+		Console.println("\tStandard Deviation:\t\t" + stdDev);
 		
 		// Now remove the first three rows.
-		List<List<String>> rowsLess3 = rows.subList(3, rows.size());
+		List<List<String>> rowsLess3 = rows.subList(REMOVE_FIRST_X, rows.size());
 		Console.println();
 		Console.println("Basic statistics with first 3 rows removed:");
 		outputBasicStatsFor(rowsLess3);
 		
 		double stdDevLess3 = getStdDev(rowsLess3);
-		Console.println("\tStandard Deviation: " + stdDevLess3);
+		Console.println("\tStandard Deviation:\t\t" + stdDevLess3);
 		writeCsvFile(rowsLess3, "less-3");
 		
 		List<List<String>> rowsLessStdDev = removeRowsGreaterThan(rowsLess3, stdDevLess3);
@@ -61,7 +61,7 @@ public class Analyzer
 		outputBasicStatsFor(rowsLessStdDev);
 		
 		double stdDevLess3AndDev = getStdDev(rowsLessStdDev);
-		Console.println("\tStandard Deviation: " + stdDevLess3AndDev);
+		Console.println("\tStandard Deviation:\t\t" + stdDevLess3AndDev);
 		writeCsvFile(rowsLessStdDev, "less-3-std-dev");
 	}
 	
@@ -149,11 +149,26 @@ public class Analyzer
 		
 		long elapsedNs = getTotalElapsedNs(rows);
 		
-		Console.println("\tTotal Elapsed Time (ns): " + elapsedNs);
-		Console.println("\tTotal Elapsed Time (sec): " + toSeconds(elapsedNs));
+		Console.println("\tTotal Elapsed Time (ns):\t" + elapsedNs);
+		Console.println("\tTotal Elapsed Time (sec):\t" + toSeconds(elapsedNs));
 		
-		Console.println("\tAverage Elapsed Time (ns): " + (elapsedNs / (double)rows.size()));
-		Console.println("\tAverage Elapsed Time (sec): " + toSeconds(elapsedNs / (double)rows.size()));
+		Console.println("\tAverage Elapsed Time (ns):\t" + (elapsedNs / (double)rows.size()));
+		Console.println("\tAverage Elapsed Time (sec):\t" + toSeconds(elapsedNs / (double)rows.size()));
+		
+		long fastestRun = Long.MAX_VALUE;
+		long slowestRun = Long.MIN_VALUE;
+		for (List<String> columns : rows)
+		{
+			long elapsed = toLong(columns.get(ELAPSED_TIME_OFFSET));
+			
+			fastestRun = Math.min(fastestRun, elapsed);
+			slowestRun = Math.max(slowestRun, elapsed);
+		}
+		
+		Console.println("\tFastest Run (ns):\t\t" + fastestRun);
+		Console.println("\tFastest Run (sec):\t\t" + toSeconds(fastestRun));
+		Console.println("\tSlowest Run (ns):\t\t" + slowestRun);
+		Console.println("\tSlowest Run (sec):\t\t" + toSeconds(slowestRun));
 	}
 	
 	private static double toSeconds(long ns)
