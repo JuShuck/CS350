@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -191,7 +192,8 @@ public class TestDataGenerator
 		try {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss");
 			String size = String.valueOf(dataSetSize);
-			String pathName = "Sorts-Project\\data\\runs\\" + dataSetType + "(" + size + ")-" + dateFormat.format(new Date()) + ".txt";
+			String pathName = Paths.get("Sorts-Project", "data", "runs", dataSetType + "(" + size + ")-" + dateFormat.format(new Date()) + ".txt").toString();
+			
 			//Create a new file for this run
 			writer = new PrintWriter(pathName, "UTF-8");
 		} catch (FileNotFoundException e) {
@@ -212,7 +214,7 @@ public class TestDataGenerator
 	 */
 	public static int[] loadReferenceFile(String dataSetType, long dataSetSize) throws Exception {
 		int[] data = new int[(int) dataSetSize];
-		File dir = new File("Sorts-Project\\data\\runs");
+		File dir = new File(Paths.get("Sorts-Project", "data", "runs").toString());
 		
 		if (!dir.exists() && !dir.mkdirs())
 		{
