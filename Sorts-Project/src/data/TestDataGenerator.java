@@ -1,6 +1,11 @@
 package data;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,7 +19,7 @@ public class TestDataGenerator
 	 */
 	public static int maxKeyVals = 4;
 
-	public static int[] generate(String dataSetType, long dataSetSize, String dataSetConfig) {
+	public static int[] generate(String dataSetType, long dataSetSize, String dataSetConfig) throws Exception {
 		switch(dataSetType.toLowerCase()) {
 			case "sorted":
 				return generateSorted(dataSetType, dataSetSize);
@@ -37,8 +42,9 @@ public class TestDataGenerator
 	 * @param dataSetType
 	 * @param dataSetSize
 	 * @return
+	 * @throws Exception 
 	 */
-	private static int[] generateRandom(String dataSetType, long dataSetSize) {
+	private static int[] generateRandom(String dataSetType, long dataSetSize) throws Exception {
 		// Checks to see if there is a reference file to load
 		int[] data = loadReferenceFile(dataSetType, dataSetSize);
 		//If loadReferenceFile returns null, it didn't find a file to load
@@ -65,8 +71,9 @@ public class TestDataGenerator
 	 * @param dataSetType
 	 * @param dataSetSize
 	 * @return
+	 * @throws Exception 
 	 */
-	private static int[] generateFewUnique(String dataSetType, long dataSetSize) {
+	private static int[] generateFewUnique(String dataSetType, long dataSetSize) throws Exception {
 		// Checks to see if there is a reference file to load
 		int[] data = loadReferenceFile(dataSetType, dataSetSize);
 		//If loadReferenceFile returns null, it didn't find a file to load
@@ -98,8 +105,9 @@ public class TestDataGenerator
 	 * @param dataSetType
 	 * @param dataSetSize
 	 * @return
+	 * @throws Exception 
 	 */
-	public static int[] generateSorted(String dataSetType, long dataSetSize) {
+	public static int[] generateSorted(String dataSetType, long dataSetSize) throws Exception {
 		// Checks to see if there is a reference file to load
 		int[] data = loadReferenceFile(dataSetType, dataSetSize);
 		//If loadReferenceFile returns null, it didn't find a file to load
@@ -121,8 +129,9 @@ public class TestDataGenerator
 	 * @param dataSetType
 	 * @param dataSetSize
 	 * @return
+	 * @throws Exception 
 	 */
-	public static int[] generateReversed(String dataSetType, long dataSetSize) {
+	public static int[] generateReversed(String dataSetType, long dataSetSize) throws Exception {
 		// Checks to see if there is a reference file to load
 		int[] data = loadReferenceFile(dataSetType, dataSetSize);
 		//If loadReferenceFile returns null, it didn't find a file to load
@@ -145,8 +154,9 @@ public class TestDataGenerator
 	 * @param dataSetType
 	 * @param dataSetSize
 	 * @return
+	 * @throws Exception 
 	 */
-	public static int[] generateUShaped(String dataSetType, long dataSetSize) {
+	public static int[] generateUShaped(String dataSetType, long dataSetSize) throws Exception {
 		// Checks to see if there is a reference file to load
 		int[] data = loadReferenceFile(dataSetType, dataSetSize);
 		//If loadReferenceFile returns null, it didn't find a file to load
@@ -198,27 +208,46 @@ public class TestDataGenerator
 	 * @param dataSetType
 	 * @param dataSetSize
 	 * @return
+	 * @throws Exception 
 	 */
-	public static int[] loadReferenceFile(String dataSetType, long dataSetSize) {
+	public static int[] loadReferenceFile(String dataSetType, long dataSetSize) throws Exception {
 		int[] data = new int[(int) dataSetSize];
 		File dir = new File("Sorts-Project\\data\\runs");
+		
+		if (!dir.exists() && !dir.mkdirs())
+		{
+			throw new Exception("The Sorts-Project/data/runs directory does not exist and could not be created automatically.");
+		}
+		
 		File[] dirList = dir.listFiles();
 		// Search all files in the directory
 		for(File f : dirList) {
 			if(f.getAbsolutePath().contains(dataSetType) && f.getAbsolutePath().contains("(" + String.valueOf(dataSetSize) + ")")) {
 				//If we found a match attempt to read in the document
+				BufferedReader in = null;
 				try {
-					BufferedReader in = new BufferedReader(new FileReader(f.getAbsoluteFile()));
+					in = new BufferedReader(new FileReader(f.getAbsoluteFile()));
 					int i =0;
-					while(in.readLine() != null) {
-						data[i] = Integer.parseInt(in.readLine());
+					String line = null;
+					while((line = in.readLine()) != null) {
+						data[i] = Integer.parseInt(line);
 						i++;
 					}
+					
+					if (data.length != dataSetSize)
+					{
+						throw new Exception ("The obtained array is not of the desired length.");
+					}
+					
 					return data;
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					throw e;
+				}
+				finally {
+					if (in != null)
+					{
+						in.close();
+					}
 				}
 			}
 		}

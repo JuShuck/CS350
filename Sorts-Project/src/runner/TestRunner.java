@@ -1,13 +1,12 @@
 package runner;
 
-import java.io.IOException;
-import data.TestDataGenerator;
-import sorts.Sort;
-import sorts.SortFactory;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
+import sorts.Sort;
+import sorts.SortFactory;
+import data.TestDataGenerator;
 
 /**
  * Runs tests... 
@@ -20,9 +19,9 @@ public class TestRunner
 	 * Runs a sort according to a run configuration.
 	 * 
 	 * @param config
-	 * @throws IOException 
+	 * @throws Exception 
 	 */
-	public static void run(RunConfigurator config, TestDataSaver saver) throws IOException
+	public static void run(RunConfigurator config, TestDataSaver saver) throws Exception
 	{
 		Sort sorter = SortFactory.getInstance(config.getSortName(), config.getSortConfig());
 		

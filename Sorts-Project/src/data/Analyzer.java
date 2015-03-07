@@ -17,6 +17,7 @@ import runner.Console;
 public class Analyzer
 {
 	private static final int ELAPSED_TIME_OFFSET = 3;
+	@SuppressWarnings ("unused")
 	private static final int BASIC_OP_COUNT_OFFSET = 4;
 	private static final int REMOVE_FIRST_X = 3;
 	private static String HEADER_LINE = null;
@@ -53,7 +54,7 @@ public class Analyzer
 		Console.println("\tStandard Deviation:\t\t" + stdDevLess3);
 		writeCsvFile(rowsLess3, "less-3");
 		
-		List<List<String>> rowsLessStdDev = removeRowsGreaterThan(rowsLess3, stdDevLess3);
+		List<List<String>> rowsLessStdDev = removeRowsDiffGreaterThan(rowsLess3, stdDevLess3);
 		
 		Console.println();
 		Console.println("Basic statistics with first 3 rows & std dev removed:");
@@ -64,15 +65,16 @@ public class Analyzer
 		writeCsvFile(rowsLessStdDev, "less-3-std-dev");
 	}
 	
-	private static List<List<String>> removeRowsGreaterThan(List<List<String>> rows, double min)
+	private static List<List<String>> removeRowsDiffGreaterThan(List<List<String>> rows, double min)
 	{
 		List<List<String>> withoutStdDev = new ArrayList<>();
+		double average = getTotalElapsedNs(rows) / (double) rows.size();
 
 		for (List<String> columns : rows)
 		{
-			long elapsed = toLong(columns.get(ELAPSED_TIME_OFFSET));
+			double elapsed = (new Long(columns.get(ELAPSED_TIME_OFFSET))).doubleValue();
 			
-			if ((new Long(elapsed)).doubleValue() > min)
+			if (Math.abs(elapsed - average) > min)
 			{
 				continue;
 			}
