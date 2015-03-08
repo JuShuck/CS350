@@ -29,18 +29,18 @@ public class Test {
 		System.out.println();
 		sorter1.sort(arrayA);
 		printArray(arrayA);
-		System.out.println("Swaps made last sort using this sorter and partition instance: " + ((QuickSort) sorter1).getSwapsLastSort());
-		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + ((QuickSort) sorter1).getTotalSwaps());
+		System.out.println("Swaps made last sort using this sorter and partition instance: " + sorter1.getSwapsLastSort());
+		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + sorter1.getTotalSwaps());
 		System.out.printf("Cumulative basic operations: %d%n", sorter1.getTotalBasicOpCount());
 		sorter1.sort(arrayACopy1);
 		printArray(arrayACopy1);
-		System.out.println("Swaps made last sort using this sorter and partition instance: " + ((QuickSort) sorter1).getSwapsLastSort());
-		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + ((QuickSort) sorter1).getTotalSwaps());
+		System.out.println("Swaps made last sort using this sorter and partition instance: " + sorter1.getSwapsLastSort());
+		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + sorter1.getTotalSwaps());
 		System.out.printf("Cumulative basic operations: %d%n", sorter1.getTotalBasicOpCount());
 		sorter1.sort(arrayACopy2);
 		printArray(arrayACopy2);
-		System.out.println("Swaps made last sort using this sorter and partition instance: " + ((QuickSort) sorter1).getSwapsLastSort());
-		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + ((QuickSort) sorter1).getTotalSwaps());
+		System.out.println("Swaps made last sort using this sorter and partition instance: " + sorter1.getSwapsLastSort());
+		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + sorter1.getTotalSwaps());
 		System.out.printf("Cumulative basic operations: %d%n", sorter1.getTotalBasicOpCount());
 		
 		System.out.println();
@@ -50,18 +50,18 @@ public class Test {
 		System.out.println();
 		sorter2.sort(arrayB);
 		printArray(arrayB);
-		System.out.println("Swaps made last sort using this sorter and partition instance: " + ((QuickSort) sorter2).getSwapsLastSort());
+		System.out.println("Swaps made last sort using this sorter and partition instance: " + sorter2.getSwapsLastSort());
 		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + ((QuickSort) sorter2).getTotalSwaps());
 		System.out.printf("Cumulative basic operations: %d%n", sorter2.getTotalBasicOpCount());
 		sorter2.sort(arrayBCopy1);
 		printArray(arrayBCopy1);
-		System.out.println("Swaps made last sort using this sorter and partition instance: " + ((QuickSort) sorter2).getSwapsLastSort());
+		System.out.println("Swaps made last sort using this sorter and partition instance: " + sorter2.getSwapsLastSort());
 		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + ((QuickSort) sorter2).getTotalSwaps());
 		System.out.printf("Cumulative basic operations: %d%n", sorter2.getTotalBasicOpCount());
 		sorter2.sort(arrayBCopy2);
 		printArray(arrayBCopy2);
-		System.out.println("Swaps made last sort using this sorter and partition instance: " + ((QuickSort) sorter2).getSwapsLastSort());
-		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + ((QuickSort) sorter2).getTotalSwaps());
+		System.out.println("Swaps made last sort using this sorter and partition instance: " + sorter2.getSwapsLastSort());
+		System.out.println("Total swaps made during all sorts using this sorter and partition instance: " + sorter2.getTotalSwaps());
 		System.out.printf("Cumulative basic operations: %d%n", sorter2.getTotalBasicOpCount());
 		
 		System.out.println();
@@ -71,7 +71,7 @@ public class Test {
 		System.out.println();
 		sorter3.sort(arrayC);
 		printArray(arrayC);
-		System.out.println("Total extra memory allocated during all sorts using this sorter instance: " + ((MergeSort) sorter3).getTotalExtraMemory());
+		System.out.println("Total extra memory allocated during all sorts using this sorter instance: " + sorter3.getTotalExtraMemory());
 		System.out.printf("Cumulative basic operations: %d%n", sorter3.getTotalBasicOpCount());
 		
 		System.out.println();
@@ -81,7 +81,7 @@ public class Test {
 		System.out.printf("Processing cores available on this system: %d%n", ParallelMergeSort.getAvailableThreads());
 		sorter4.sort(arrayD);
 		printArray(arrayD);
-		System.out.println("Total extra memory allocated during all sorts using this sorter instance: " + ((ParallelMergeSort) sorter4).getTotalExtraMemory());
+		System.out.println("Total extra memory allocated during all sorts using this sorter instance: " + sorter4.getTotalExtraMemory());
 		System.out.printf("Cumulative basic operations: %d%n", sorter4.getTotalBasicOpCount());
 	}
 	

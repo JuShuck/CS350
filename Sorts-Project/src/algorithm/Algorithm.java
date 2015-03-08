@@ -12,6 +12,9 @@ public interface Algorithm
 	// increments the count of per-execution basic operations
 	public void incBasicOpCount();
 	
+	// provides a boolean return should the basic operations need to be incremented as part of a loop condition
+	public boolean incBasicOpCountInLoop();
+	
 	// adds to the basic operation count for the current execution
 	public void addToOpCount(long countToAdd);	
 	

@@ -24,7 +24,7 @@ public class MergeSort extends Sort
 		int i = 0;
 		int j = 0;
 		int k = 0;
-		while ((i < inData1.length) && (j < inData2.length)) {
+		while (incBasicOpCountInLoop() && (i < inData1.length) && (j < inData2.length)) {
 			if (inData1[i] <= inData2[j]) {
 				outData[k] = inData1[i];
 				i++;
@@ -33,8 +33,6 @@ public class MergeSort extends Sort
 				j++;
 			}
 			k++;
-			// merge step basic operations accumulated here - i.e. key comparisons
-			incBasicOpCount();
 		}
 		if (i == inData1.length) {
 			System.arraycopy(inData2, j, outData, k, inData2.length - j);
@@ -44,7 +42,7 @@ public class MergeSort extends Sort
 	}
 	
 	// implements a standard MergeSort
-	void mergeSort(int[] data)
+	protected void mergeSort(int[] data)
 	{
 		if (data.length > 1) {
 			int lengthFirst = data.length / 2;

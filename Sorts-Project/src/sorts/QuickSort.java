@@ -52,6 +52,7 @@ public class QuickSort extends Sort
 		if (partitioner != null) {
 			partitioner.resetTotalBasicOpCount();
 			quickSort(data, 0, data.length - 1);
+			totalSwaps += swapsLastSort;
 			addToOpCount(partitioner.getTotalBasicOpCount());
 			addToTotalOpCount(getBasicOpCountLastSort());
 		} else {

@@ -2,7 +2,7 @@ package sorts;
 
 public class InsertionSort extends Sort {
 
-    public void InsertionSort(int[] data) {
+    private void insertionSort(int[] data) {
         int key, prevIndex;
         for(int i = 0; i < data.length; i++) {
             key = data[i];
@@ -18,7 +18,7 @@ public class InsertionSort extends Sort {
     @Override
     public void sort(int[] data) {
         resetBasicOpCount();
-        InsertionSort(data);
+        insertionSort(data);
     }
 
     @Override

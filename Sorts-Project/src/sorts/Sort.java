@@ -32,8 +32,14 @@ public abstract class Sort implements Algorithm
 	{
 		totalBasicOpCount = 0;
 	}
-
-	protected boolean incBasicOpCountInLoop() { basicOpCountLastSort.incrementAndGet(); return true; }
+	
+	/**
+	 * provides a boolean return should the basic operations need to be incremented as part of a loop condition
+	 */
+	public boolean incBasicOpCountInLoop() {
+		basicOpCountLastSort++;
+		return true;
+	}
 	
 	/**
 	 * increments the count of per-sort basic operations
