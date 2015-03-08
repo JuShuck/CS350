@@ -19,17 +19,11 @@ public class InsertionSort extends Sort {
     public void sort(int[] data) {
         resetBasicOpCount();
         InsertionSort(data);
-        addTotalOpCount(getLastBasicOpCount());
     }
 
     @Override
     public String getSortName() {
         return "Insertionsort";
-    }
-
-    @Override
-    public void printDiagnostics() {
-        System.out.println("Total extra memory: "/**/);
     }
 
 }
