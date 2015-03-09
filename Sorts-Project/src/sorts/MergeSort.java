@@ -24,7 +24,8 @@ public class MergeSort extends Sort
 		int i = 0;
 		int j = 0;
 		int k = 0;
-		while (incBasicOpCountInLoop() && (i < inData1.length) && (j < inData2.length)) {
+		while ((i < inData1.length) && (j < inData2.length)) {
+			incBasicOpCount();
 			if (inData1[i] <= inData2[j]) {
 				outData[k] = inData1[i];
 				i++;
