@@ -47,6 +47,14 @@ public abstract class Sort implements Algorithm
 	}
 	
 	/**
+	 * provides a boolean return should the basic operations need to be incremented as part of a loop condition
+	 */
+	public boolean incBasicOpCountInLoop() {
+		basicOpCountLastSort++;
+		return true;
+	}
+	
+	/**
 	 * increments the count of per-sort basic operations
 	 */
 	public void incBasicOpCount()

@@ -31,6 +31,12 @@ public abstract class Partition implements Algorithm
 		basicOpCountLastPartition++;
 	}
 	
+	// provides a boolean return should the basic operations need to be incremented as part of a loop condition
+	public boolean incBasicOpCountInLoop() {
+		basicOpCountLastPartition++;
+		return true;
+	}
+	
 	// adds to the basic operation count for the current partition
 	public void addToOpCount(long countToAdd)
 	{
