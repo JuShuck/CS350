@@ -47,9 +47,34 @@ if ($file == null || !in_array($file, $files))
 	return;
 }
 
+$GLOBALS['chart_info'] = get_chart_info($dir);
 
 do_chart($dir, $file);
 // end
+}
+
+function get_chart_info($dir)
+{
+	$output = file_get_contents($dir. '/output.log');
+	
+	$lines = explode("\n", $output);
+	
+	$map = array();
+	for ($i = 0; $i < 15; $i++)
+	{
+		$line = $lines[$i];
+		
+		if (strpos($line, ':') === false)
+		{
+			continue;
+		}
+		
+		list($key, $value) = explode(':', $line, 2);
+		
+		$map[trim(strtolower($key))] = trim($value);
+	}
+	
+	return $map;
 }
 
 function get_files($dir)
@@ -98,19 +123,23 @@ function do_chart($dir, $file)
 			$("#chart").highcharts(', json_encode(get_highcharts($csv)), ');
 		});
 	</script>';
+	
+	print_r($GLOBALS['chart_info']);
 }
 
 function get_highcharts($csv)
 {
+	global $chart_info;
+	
 	return array(
 		'chart' => array(
 			'type' => 'column',
 		),
 		'title' => array(
-			'text' => 'Chart title',
+			'text' => $chart_info['sort name']. (strlen($chart_info['sort config']) > 0 ? ' ('. $chart_info['sort config']. ')' : ''),
 		),
 		'subtitle' => array(
-			'text' => 'Subtitle...',
+			'text' => 'Data Set Type: '. $chart_info['data type']. ', Data Set Size: '. number_format($chart_info['data size']),
 		),
 		'yAxis' => array(
 			'min' => 0,
@@ -172,6 +201,11 @@ function get_csv($header, $lines)
 	$csv = array();
 	for ($i = 1; $i < $count; $i++)
 	{
+		if (trim($lines[$i]) == '')
+		{
+			continue;
+		}
+		
 		$csv[] = map($header, explode(",", $lines[$i]));
 	}
 	

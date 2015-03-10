@@ -56,6 +56,11 @@ public class TestDataSaver
 				this.target = Paths.get(resultDirectory.getCanonicalPath(), this.startedAt + "-" + tryCount).toFile();
 				tryCount++;
 			}
+			
+			if (!this.target.exists())
+			{
+				this.target.mkdirs();
+			}
 		}
 	}
 	

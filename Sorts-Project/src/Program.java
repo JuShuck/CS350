@@ -34,7 +34,7 @@ public class Program
 			
 			execute(args);
 		}
-		catch (Exception e)
+		catch (Throwable e)
 		{
 			Console.errprintln();
 			Console.errprintln("An uncaught exception occurred.");
@@ -88,7 +88,7 @@ public class Program
 			out.newLine();
 			out.flush();
 			
-			execute(new String[] { file.getCanonicalPath() });
+			main(new String[] { file.getCanonicalPath() });
 			
 			out.write("[" + (new Date()).toString() + "] Finished run (with" + (Console.hasError ? "" : "out") + " error): " + file.getCanonicalPath());
 			out.newLine();

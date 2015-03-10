@@ -1,5 +1,5 @@
 <?php
-define ('CONFIG_DIR', './configs');
+define ('CONFIG_DIR', './configs2');
 
 $sort_types = array(
 	'Mergesort' => array(''),
@@ -7,15 +7,13 @@ $sort_types = array(
 	'Insertionsort' => array(''),
 	'Quicksort' => array('Hoare', 'Lomuto'),
 );
-echo 'hi';
+
 $data_types = array('Sorted', 'Reversed', 'UShaped', 'fewUnique', 'Random');
 $data_set_sizes = array(100, 1000, 3000, 5000, 10000, 1000000);
 
 $iterations = 1000;
-
 foreach ($sort_types as $sort_type => $configs)
 {
-echo $sort_type, "\n";
 	foreach ($configs as $config_type)
 	{
 		foreach ($data_types as $data_type)
@@ -31,6 +29,34 @@ echo $sort_type, "\n";
 
 function write_config_file($sort_type, $config_type, $data_type, $data_set_size, $iterations)
 {
+	// We might want to change the iterations.
+	if (strtolower($sort_type) == 'insertionsort')
+	{
+		$iterations = 10;
+		
+		if ($data_set_size > 3000)
+		{
+			$iterations = 5;
+		}
+	}
+	else if (strtolower($sort_type) == 'quicksort')
+	{
+		if (strtolower($config_type) == 'hoare')
+		{
+			if ($data_set_size > 5000)
+			{
+				$iterations = 50;
+			}
+		}
+		else
+		{
+			if ($data_set_size > 1000)
+			{
+				$iterations = 10;
+			}
+		}
+	}
+
 	$config_file = "[Sort]
 ; The name of the sort
 ; Options: { Mergesort, Parallel Mergesort, Insertionsort }

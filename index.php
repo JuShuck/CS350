@@ -1,31 +1,36 @@
 <?php
 define ('RESULTS_DIR', './results');
 
-echo '<pre>';
-
-$entries = get_result_entries();
-
-foreach ($entries as $sort_type => $configs)
+if (!defined('HIDE_OUTPUT'))
 {
-	echo '<p><strong>', $sort_type, '</strong></p>';
-	
-	foreach ($configs as $config_name => $data_types)
+	echo '<pre>';
+
+	echo '<p><a href="avg.php">Click here for more cool graphs...</a></p>';
+
+	$entries = get_result_entries();
+
+	foreach ($entries as $sort_type => $configs)
 	{
-		echo '<p style="margin-left: 15px;"><em>', (strlen($config_name) == 0 ? 'N/A' : $config_name), '</em></p>';
+		echo '<p><strong>', $sort_type, '</strong></p>';
 		
-		foreach ($data_types as $data_type => $results)
+		foreach ($configs as $config_name => $data_types)
 		{
-			echo '<p style="margin-left: 30px;"><strong>', $data_type, '</strong></p>';
+			echo '<p style="margin-left: 15px;"><em>', (strlen($config_name) == 0 ? 'N/A' : $config_name), '</em></p>';
 			
-			foreach ($results as $result)
+			foreach ($data_types as $data_type => $results)
 			{
-				echo '<p style="margin-left: 45px;"><a href="chart.php?dir=', urlencode($result['dir']), '">', number_format($result['size']), '</a></p>';
+				echo '<p style="margin-left: 30px;"><strong>', $data_type, '</strong></p>';
+				
+				foreach ($results as $result)
+				{
+					echo '<p style="margin-left: 45px;"><a href="chart.php?dir=', urlencode($result['dir']), '">', number_format($result['size']), '</a></p>';
+				}
 			}
 		}
 	}
-}
 
-echo '</pre>';
+	echo '</pre>';
+}
 
 function get_result_entries()
 {
