@@ -8,10 +8,14 @@ import java.nio.file.Paths;
 public class Console
 {
 	private static PrintStream log;
+	public static String outputFile;
+	public static boolean hasError;
 
 	public static void init(File directory) throws IOException
 	{
+		hasError = false;
 		File output = Paths.get(directory.getCanonicalPath(), "output.log").toFile();
+		outputFile = output.getCanonicalPath();
 		
 		Console.log = new PrintStream(output);
 	}
@@ -24,6 +28,7 @@ public class Console
 	
 	public static void errprintln(String s)
 	{
+		hasError = true;
 		System.err.println(s);
 		
 		if (log == null)
@@ -42,6 +47,7 @@ public class Console
 	
 	public static void errprintln()
 	{
+		hasError = true;
 		System.err.println();
 		
 		if (log == null)
