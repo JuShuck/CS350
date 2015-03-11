@@ -6,7 +6,8 @@ if (!defined('HIDE_OUTPUT'))
 	echo '<pre>';
 
 	echo '<p><a href="avg.php">Click here for more cool graphs...</a></p>';
-
+	echo '<p><a href="tables.php">Look here! TABLES!</a></p>';
+	
 	$entries = get_result_entries();
 
 	foreach ($entries as $sort_type => $configs)

@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import sorts.InsertionSort;
 import sorts.Sort;
 import sorts.SortFactory;
 import data.TestDataGenerator;
@@ -102,7 +103,7 @@ public class TestRunner
 		
 		result.setElapsedTime(elapsed);
 		result.setSortName(sorter.getSortName());
-		result.setBasicOpCount(sorter.getTotalBasicOpCount());
+		result.setBasicOpCount((sorter instanceof InsertionSort) ? sorter.getBasicOpCountLastSort() : sorter.getTotalBasicOpCount());
 		result.setSwapCount(sorter.getTotalSwaps());
 		result.setTotalExtraMemory(sorter.getTotalExtraMemory());
 		
