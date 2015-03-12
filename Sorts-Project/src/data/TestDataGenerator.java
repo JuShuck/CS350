@@ -92,7 +92,7 @@ public class TestDataGenerator
 			list[i] = random.nextInt(Integer.MAX_VALUE)%100;
 		}
 		//Populate the data array
-		for(int i = 0; i < data.length-1; i++) {
+		for(int i = 0; i < data.length; i++) {
 			int index = random.nextInt(Integer.MAX_VALUE)%maxKeyVals;
 			data[i] = list[index];
 			writer.println(list[index]);
@@ -238,7 +238,7 @@ public class TestDataGenerator
 					
 					if (i != dataSetSize)
 					{
-						throw new Exception ("The obtained array is not of the desired length.");
+						throw new Exception ("The obtained array is not of the desired length (wanted: " + dataSetSize + ", got: " + i + ".");
 					}
 					
 					return data;

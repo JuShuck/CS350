@@ -1,4 +1,8 @@
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.nio.file.Paths;
+import java.util.Date;
 
 import data.Analyzer;
 import runner.Console;
@@ -22,9 +26,15 @@ public class Program
 	{
 		try
 		{
+			if (args.length == 2 && args[0].equals("-d"))
+			{
+				executeDir(args[1]);
+				return;
+			}
+			
 			execute(args);
 		}
-		catch (Exception e)
+		catch (Throwable e)
 		{
 			Console.errprintln();
 			Console.errprintln("An uncaught exception occurred.");
@@ -40,6 +50,56 @@ public class Program
 			
 			e.printStackTrace(Console.getPrintStream());
 		}
+	}
+	
+	/**
+	 * Executes a directory of files.
+	 * 
+	 * @param dirName
+	 * @throws Exception
+	 */
+	private static void executeDir(String dirName) throws Exception
+	{
+		File dir = new File(dirName);
+		
+		if (!dir.exists() || !dir.isDirectory())
+		{
+			throw new IllegalArgumentException("The directory does not exist, or is not a directory: " + dirName);
+		}
+		
+		File[] files = dir.listFiles();
+		
+		if (files == null || files.length == 0)
+		{
+			throw new IllegalArgumentException("No files were found in the directory: " + dirName);
+		}
+		
+		File outFile = new File(Paths.get(".", "dir.log").toString());
+		BufferedWriter out = new BufferedWriter(new FileWriter(outFile));
+		
+		for (File file : files)
+		{
+			if (!file.isFile())
+			{
+				continue;
+			}
+			
+			out.write("[" + (new Date()).toString() + "] Starting to run: " + file.getCanonicalPath());
+			out.newLine();
+			out.flush();
+			
+			main(new String[] { file.getCanonicalPath() });
+			
+			out.write("[" + (new Date()).toString() + "] Finished run (with" + (Console.hasError ? "" : "out") + " error): " + file.getCanonicalPath());
+			out.newLine();
+			out.write("\tSee output here: " + Console.outputFile);
+			out.newLine();
+			out.flush();
+		}
+		
+		out.write("[" + (new Date()).toString() + "] All done!");
+		out.newLine();
+		out.close();
 	}
 	
 	/**

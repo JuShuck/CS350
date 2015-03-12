@@ -19,6 +19,7 @@ public class InsertionSort extends Sort {
     public void sort(int[] data) {
         resetBasicOpCount();
         insertionSort(data);
+        addToTotalOpCount(getBasicOpCountLastSort());
     }
 
     @Override

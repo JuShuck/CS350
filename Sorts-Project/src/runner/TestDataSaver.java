@@ -48,6 +48,20 @@ public class TestDataSaver
 		{
 			this.target.mkdirs();
 		}
+		else if (this.target.exists())
+		{
+			int tryCount = 2;
+			while (this.target.exists())
+			{
+				this.target = Paths.get(resultDirectory.getCanonicalPath(), this.startedAt + "-" + tryCount).toFile();
+				tryCount++;
+			}
+			
+			if (!this.target.exists())
+			{
+				this.target.mkdirs();
+			}
+		}
 	}
 	
 	/**
